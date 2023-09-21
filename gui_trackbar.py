@@ -10,7 +10,7 @@ img = np.zeros((300,512,3), np.uint8)
 cv.namedWindow('image')
 
 # create trackbars for color change
-# args: trackbar name, window name, default value, max value, callback function 
+# args: trackbar name, window name, default value, max value, callback function
 #       that is executed every time trackbar value change.
 cv.createTrackbar('R', 'image', 0, 255, nothing)
 cv.createTrackbar('G', 'image', 0, 255, nothing)
