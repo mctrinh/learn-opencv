@@ -119,3 +119,53 @@ cv.imshow('Histogram lines 1',lines)
 cv.imshow('Normalized image',norm)
 cv.waitKey(0)
 cv.destroyAllWindows()
+
+
+
+
+# ------------------------------ Histogram Equalization -----------------------------
+"""
+Used as a "reference tool" to make all images with same lighting conditions.
+This is useful in many cases. For example, in face recognition, before training
+the face data, the images of faces are histogram equalized to make them all
+with same lighting conditions.
+
+Histogram equalization is good when histogram of the image is confined to a
+particular region. It won't work good in places where there is large intensity
+variations where histogram covers a large region, ie both bright and dark pixels
+are present.
+"""
+
+img = cv.imread('./image/wiki.jpeg', cv.IMREAD_GRAYSCALE)
+assert img is not None, "file could not be read, check with os.path.exists()"
+hist,bins = np.histogram(img.flatten(),256,[0,256])
+cdf = hist.cumsum()
+cdf_normalized = cdf * float(hist.max()) / cdf.max()
+plt.plot(cdf_normalized, color = 'b')
+plt.hist(img.flatten(),256,[0,256], color = 'r')
+plt.xlim([0,256])
+plt.legend(('cdf','histogram'), loc = 'upper left')
+plt.show()
+
+cdf_m = np.ma.masked_equal(cdf,0)
+cdf_m = (cdf_m - cdf_m.min())*255/(cdf_m.max()-cdf_m.min())
+cdf = np.ma.filled(cdf_m,0).astype('uint8')
+
+img2 = cdf[img]
+
+hist,bins = np.histogram(img2.flatten(),256,[0,256])
+cdf = hist.cumsum()
+cdf_normalized = cdf * float(hist.max()) / cdf.max()
+plt.plot(cdf_normalized, color = 'b')
+plt.hist(img2.flatten(),256,[0,256], color = 'r')
+plt.xlim([0,256])
+plt.legend(('cdf','histogram'), loc = 'upper left')
+plt.show()
+
+
+# Histograms Equalization in OpenCV
+img = cv.imread('./image/wiki.jpeg', cv.IMREAD_GRAYSCALE)
+assert img is not None, "file could not be read, check with os.path.exists()"
+equ = cv.equalizeHist(img)
+res = np.hstack((img,equ)) #stacking images side-by-side
+cv.imwrite('./output/res.png',res)
