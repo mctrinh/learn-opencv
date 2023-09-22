@@ -12,7 +12,7 @@ cv.line(img, (0,0), (511,511), (255,0,0), 5)
 cv.rectangle(img, (384,0), (510,128), (0,255,0), 3)
 
 # Draw a circle with its center coordinates and radius, -1 to fill it, default thickness 1px
-cv.circle(img, (447,63), 63, (0,0,255), -1)
+cv.circle(img, (447,63), 63, (0,0,255), -1)     # (img, center, radius, color, fill)
 
 # Draw a half ellipse at the center of the image
 cv.ellipse(img, (256,256), (100,50), 0, 0, 180, 255, -1)        # color 255 == (255,0,0)
