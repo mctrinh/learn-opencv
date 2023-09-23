@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-""" Use Hough transform to detec lines in an image."""
+""" Use Hough transform to detect lines in an image."""
 # https://docs.opencv.org/4.8.0/d6/d10/tutorial_py_houghlines.html
 
 
