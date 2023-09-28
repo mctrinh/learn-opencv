@@ -42,7 +42,7 @@ Performing camera calibration by passing the value of known 3D points (objpoints
 and corresponding pixel coordinates of the detected corners (imgpoints). """
 
 ret, mtx, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
- 
+
 print("Camera matrix : \n")
 print(mtx)
 print("dist : \n")
@@ -63,7 +63,29 @@ newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
 dst = cv.undistort(img, mtx, dist, None, newcameramtx)      # undistort
 x,y,w,h = roi
 dst = dst[y:y+h, x:x+w]     # crop the image
-cv.imwrite('./output/calibresult.jpg', dst)
+cv.imwrite('./output/calibresult_1.jpg', dst)
 
-# Find a mapping function from the distorted image to the distorted image, then use remap function.
+# Find a mapping function from the distorted image to the undistorted image, then use remap function.
+mapx, mapy = cv.initUndistortRectifyMap(mtx, dist, None, newcameramtx, (w,h), 5)    # undistort
+dst = cv.remap(img, mapx, mapy, cv.INTER_LINEAR)
+x, y, w, h = roi            # crop the image
+dst = dst[y:y+h, x:x+w]
+cv.imwrite('./output/calibresult_2.jpg', dst)
 
+
+# -------------------------------- Re-projection Error --------------------------------
+
+""" A good estimation of how exact the found parameters are.
+    Given the intrinsic, distortion, rotation and translation matrices,
+    we must first transform the object point to image point using cv.projectPoints()
+    Then, we can calculate the absolute norm between what we got with our transformation
+    and the corner finding algorithm. To find the average error, we calculate
+    the arithmetical mean of the errors calculated for all the calibration images.
+"""
+
+mean_error = 0
+for i in range(len(objpoints)):
+    imgpoints2, _ = cv.projectPoints(objpoints[i], rvecs[i], tvecs[i], mtx, dist)
+    error = cv.norm(imgpoints[i], imgpoints2, cv.NORM_L2)/len(imgpoints2)
+    mean_error += error
+print( "total error: {}".format(mean_error/len(objpoints)) )
