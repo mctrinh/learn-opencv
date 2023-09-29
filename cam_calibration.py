@@ -52,6 +52,9 @@ print(rvecs)
 print("tvecs : \n")
 print(tvecs)
 
+# Save calibration data
+np.savez('./output/cam_calibration.npz', mtx=mtx, dist=dist, rvecs=rvecs, tvecs=tvecs)
+
 
 # -------------------------------- Undistortion --------------------------------
 
