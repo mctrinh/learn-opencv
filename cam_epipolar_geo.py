@@ -10,8 +10,8 @@ Ref: https://docs.opencv.org/4.8.0/da/de9/tutorial_py_epipolar_geometry.html
 """
 
 
-img1 = cv.imread('./image/myleft.jpg', cv.IMREAD_GRAYSCALE)  # query image  (left image)
-img2 = cv.imread('./image/myright.jpg', cv.IMREAD_GRAYSCALE) # train image  (right image)
+img1 = cv.imread('./image/left.jpg', cv.IMREAD_GRAYSCALE)  # query image  (left image)
+img2 = cv.imread('./image/right.jpg', cv.IMREAD_GRAYSCALE) # train image  (right image)
 
 sift = cv.SIFT_create()
 
