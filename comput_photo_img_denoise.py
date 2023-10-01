@@ -1,3 +1,5 @@
+# https://docs.opencv.org/4.8.0/d5/d69/tutorial_py_non_local_means.html
+
 import numpy as np
 import cv2 as cv
 from matplotlib import pyplot as plt
