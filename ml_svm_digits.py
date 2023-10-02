@@ -1,4 +1,5 @@
 # https://docs.opencv.org/4.8.0/dd/d3b/tutorial_py_svm_opencv.html
+# https://docs.opencv.org/4.8.0/d1/d73/tutorial_introduction_to_svm.html
 
 """
 OpenCV moments relate the motion between two consecutive images.
